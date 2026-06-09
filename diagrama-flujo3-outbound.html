@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Fase 3: Secuencia de Outreach y Activación Outbound Multicanal — HubSpot, Apollo, Claude, Smartlead y Vambe">
+<title>Fase 3 — Activación y Outreach Outbound</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    /* HubSpot — Verde */
+    --hub-bg: #eefaf0;
+    --hub-border: #2eac5a;
+    --hub-shadow: rgba(46, 172, 90, 0.12);
+    --hub-title: #14522a;
+    --hub-text: #1e6b38;
+    --hub-bullet: #2eac5a;
+
+    /* Apollo — Azul */
+    --apollo-bg: #eef3fc;
+    --apollo-border: #4a7fd9;
+    --apollo-shadow: rgba(74, 127, 217, 0.12);
+    --apollo-title: #1e3a6b;
+    --apollo-text: #2e4f80;
+    --apollo-bullet: #4a7fd9;
+
+    /* RapidAPI — Gris Oscuro */
+    --api-bg: #f3f4f6;
+    --api-border: #4b5563;
+    --api-shadow: rgba(75, 85, 99, 0.12);
+    --api-title: #1f2937;
+    --api-text: #4b5563;
+    --api-bullet: #6b7280;
+
+    /* Claude — Naranja/Ámbar (Destacado) */
+    --claude-bg: #fffbeb;
+    --claude-border: #f59e0b;
+    --claude-shadow: rgba(245, 158, 11, 0.18);
+    --claude-title: #78350f;
+    --claude-text: #b45309;
+    --claude-bullet: #f59e0b;
+
+    /* Smartlead — Violeta */
+    --smart-bg: #faf5ff;
+    --smart-border: #a855f7;
+    --smart-shadow: rgba(168, 85, 247, 0.12);
+    --smart-title: #581c87;
+    --smart-text: #7e22ce;
+    --smart-bullet: #a855f7;
+
+    /* Vambe — Verde Agua */
+    --vambe-bg: #f0fdfa;
+    --vambe-border: #14b8a6;
+    --vambe-shadow: rgba(20, 184, 166, 0.12);
+    --vambe-title: #115e59;
+    --vambe-text: #0f766e;
+    --vambe-bullet: #14b8a6;
+
+    /* General */
+    --page-bg: #fafafa;
+    --text-primary: #2a2a3d;
+    --text-secondary: #5a5a72;
+    --text-muted: #8a8a9e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Be Vietnam Pro', 'Lato', sans-serif;
+    background: var(--page-bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 40px 20px 60px;
+    line-height: 1.6;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 16px;
+  }
+  .header .flujo-ref {
+    display: inline-block;
+    background: var(--claude-bg);
+    border: 1px solid var(--claude-border);
+    color: var(--claude-title);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 16px;
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-size: 2.1rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .header h1 span {
+    background: linear-gradient(135deg, #2eac5a 0%, #4a7fd9 40%, #a855f7 75%, #14b8a6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header p {
+    color: var(--text-secondary);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .header .brand-bar {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 5px 18px;
+    background: linear-gradient(135deg, #a855f7, #14b8a6);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 16px;
+  }
+
+  /* ---- NAVIGATION ---- */
+  .nav-bar {
+    max-width: 860px;
+    margin: 20px auto 30px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .nav-btn {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    background: #fff;
+    border: 1.5px solid #e2e8f0;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+  }
+  .nav-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: var(--text-primary);
+  }
+
+  /* ---- CONTAINER DEL FLUJO ---- */
+  .flow-container {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* ---- CARDS GENERAL ---- */
+  .step-card {
+    width: 100%;
+    max-width: 680px;
+    border-radius: 16px;
+    padding: 22px 26px;
+    border: 2px solid;
+    background: #fff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+  }
+  .step-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .step-number {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .step-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .step-title .icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  /* BULLETS */
+  .step-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .step-bullets li {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.86rem;
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .step-bullets li::before {
+    content: '›';
+    position: absolute;
+    left: 4px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    top: -2px;
+  }
+
+  /* NOTAS/CALLOUTS */
+  .badge-callout {
+    margin-top: 14px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ---- ESTILOS ESPECÍFICOS DE ACTOR ---- */
+  .step--hub { background: var(--hub-bg); border-color: var(--hub-border); box-shadow: 0 4px 20px var(--hub-shadow); }
+  .step--hub .step-number { color: var(--hub-text); }
+  .step--hub .step-title { color: var(--hub-title); }
+  .step--hub .step-bullets li { color: var(--hub-text); }
+  .step--hub .step-bullets li::before { color: var(--hub-bullet); }
+
+  .step--apollo { background: var(--apollo-bg); border-color: var(--apollo-border); box-shadow: 0 4px 20px var(--apollo-shadow); }
+  .step--apollo .step-number { color: var(--apollo-text); }
+  .step--apollo .step-title { color: var(--apollo-title); }
+  .step--apollo .step-bullets li { color: var(--apollo-text); }
+  .step--apollo .step-bullets li::before { color: var(--apollo-bullet); }
+
+  .step--api { background: var(--api-bg); border-color: var(--api-border); box-shadow: 0 4px 20px var(--api-shadow); }
+  .step--api .step-number { color: var(--api-text); }
+  .step--api .step-title { color: var(--api-title); }
+  .step--api .step-bullets li { color: var(--api-text); }
+  .step--api .step-bullets li::before { color: var(--api-bullet); }
+
+  /* Claude: Súper destacado con borde grueso e iluminación ámbar */
+  .step--claude {
+    background: var(--claude-bg);
+    border-color: var(--claude-border);
+    border-width: 3px;
+    box-shadow: 0 8px 30px var(--claude-shadow);
+  }
+  .step--claude .step-number { color: var(--claude-text); }
+  .step--claude .step-title { color: var(--claude-title); }
+  .step--claude .step-bullets li { color: var(--claude-text); }
+  .step--claude .step-bullets li::before { color: var(--claude-bullet); }
+
+  .step--smart { background: var(--smart-bg); border-color: var(--smart-border); box-shadow: 0 4px 20px var(--smart-shadow); }
+  .step--smart .step-number { color: var(--smart-text); }
+  .step--smart .step-title { color: var(--smart-title); }
+
+  .step--vambe { background: var(--vambe-bg); border-color: var(--vambe-border); box-shadow: 0 4px 20px var(--vambe-shadow); }
+  .step--vambe .step-number { color: var(--vambe-text); }
+  .step--vambe .step-title { color: var(--vambe-title); }
+
+  /* ---- ARROWS & CONNECTIONS ---- */
+  .arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 44px;
+    width: 100%;
+  }
+  .arrow svg {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+  }
+  .arrow--hub line { stroke: var(--hub-border); } .arrow--hub polygon { fill: var(--hub-border); stroke: none; }
+  .arrow--apollo line { stroke: var(--apollo-border); } .arrow--apollo polygon { fill: var(--apollo-border); stroke: none; }
+  .arrow--api line { stroke: var(--api-border); } .arrow--api polygon { fill: var(--api-border); stroke: none; }
+  .arrow--claude line { stroke: var(--claude-border); } .arrow--claude polygon { fill: var(--claude-border); stroke: none; }
+  .arrow--smart line { stroke: var(--smart-border); } .arrow--smart polygon { fill: var(--smart-border); stroke: none; }
+  .arrow--vambe line { stroke: var(--vambe-border); } .arrow--vambe polygon { fill: var(--vambe-border); stroke: none; }
+
+  /* ---- VERTICAL TIMELINE OUTBOUND (PASO 5) ---- */
+  .outreach-timeline {
+    width: 100%;
+    background: linear-gradient(135deg, #fdfbff 0%, #f0fdfa 100%);
+    border: 2px solid #d8b4fe;
+    border-radius: 20px;
+    padding: 32px 24px;
+    box-shadow: 0 8px 32px rgba(168, 85, 247, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .timeline-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .timeline-header h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--smart-title);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .timeline-header p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Línea horizontal de conexión */
+  .timeline-grid::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 12.5%;
+    right: 12.5%;
+    height: 3px;
+    background: repeating-linear-gradient(to right, #a855f7 0, #a855f7 6px, transparent 6px, transparent 12px);
+    z-index: 1;
+  }
+
+  .timeline-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+  }
+
+  .node-indicator {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 3px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease;
+  }
+  .timeline-node:hover .node-indicator {
+    transform: scale(1.08);
+  }
+
+  .node-day {
+    font-size: 0.65rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .node-channel {
+    font-size: 1.1rem;
+    margin-top: 2px;
+  }
+
+  /* Colores de los Nodos */
+  .node--smart { border-color: var(--smart-border); background: var(--smart-bg); }
+  .node--smart .node-day { color: var(--smart-text); }
+  .node--vambe { border-color: var(--vambe-border); background: var(--vambe-bg); }
+  .node--vambe .node-day { color: var(--vambe-text); }
+
+  .node-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 10px;
+    text-align: center;
+    margin-top: 16px;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+  .node-title {
+    font-size: 0.78rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .node-title--smart { color: var(--smart-title); }
+  .node-title--vambe { color: var(--vambe-title); }
+
+  .node-card p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    line-height: 1.35;
+  }
+
+  /* Control de corte/pausa */
+  .timeline-notice {
+    margin-top: 28px;
+    background: #fff;
+    border: 1.5px dashed var(--hub-border);
+    color: var(--hub-title);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(46, 172, 90, 0.05);
+  }
+
+  /* ---- VERTICALS CALLOUT ---- */
+  .verticals-box {
+    margin-top: 14px;
+    background: #fff;
+    border: 1.5px solid var(--claude-border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .verticals-box-title {
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: var(--claude-title);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .verticals-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 14px;
+  }
+  .vertical-item {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.78rem;
+    color: var(--claude-text);
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    border-left: 2px solid var(--claude-border);
+  }
+  .vertical-item strong {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.78rem;
+    color: var(--claude-title);
+  }
+
+  /* ---- LEGEND ---- */
+  .legend {
+    max-width: 860px;
+    margin: 40px auto 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    background: #fff;
+    border: 1px solid #e0e0e8;
+    border-radius: 12px;
+    padding: 14px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-swatch {
+    width: 16px; height: 16px;
+    border-radius: 4px;
+    border: 2px solid;
+    flex-shrink: 0;
+  }
+  .sw--hub    { background: var(--hub-bg);    border-color: var(--hub-border); }
+  .sw--apollo { background: var(--apollo-bg); border-color: var(--apollo-border); }
+  .sw--api    { background: var(--api-bg);    border-color: var(--api-border); }
+  .sw--claude { background: var(--claude-bg);  border-color: var(--claude-border); }
+  .sw--smart  { background: var(--smart-bg);  border-color: var(--smart-border); }
+  .sw--vambe  { background: var(--vambe-bg);  border-color: var(--vambe-border); }
+  .legend-label {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  /* ---- FOOTER ---- */
+  .footer {
+    text-align: center;
+    margin-top: 36px;
+    color: var(--text-muted);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .step-card, .outreach-timeline, .legend { animation: fadeUp 0.4s ease both; }
+  .flow-container > *:nth-child(1) { animation-delay: 0.05s; }
+  .flow-container > *:nth-child(2) { animation-delay: 0.1s; }
+  .flow-container > *:nth-child(3) { animation-delay: 0.15s; }
+  .flow-container > *:nth-child(4) { animation-delay: 0.2s; }
+  .flow-container > *:nth-child(5) { animation-delay: 0.25s; }
+  .flow-container > *:nth-child(6) { animation-delay: 0.3s; }
+  .flow-container > *:nth-child(7) { animation-delay: 0.35s; }
+  .flow-container > *:nth-child(8) { animation-delay: 0.4s; }
+  .flow-container > *:nth-child(9) { animation-delay: 0.45s; }
+  .flow-container > *:nth-child(10) { animation-delay: 0.5s; }
+  .flow-container > *:nth-child(11) { animation-delay: 0.55s; }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 768px) {
+    body { padding: 20px 10px 40px; }
+    .header h1 { font-size: 1.5rem; }
+    .timeline-grid { grid-template-columns: 1fr; gap: 24px; }
+    .timeline-grid::before { display: none; }
+    .node-indicator { width: 60px; height: 60px; }
+    .node-card { margin-top: 8px; }
+    .verticals-grid { grid-template-columns: 1fr; }
+    .legend { gap: 10px; padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== HEADER ====== -->
+<header class="header">
+  <div class="flujo-ref">Fase 3 de 3</div>
+  <h1><span>Activación y Outreach Outbound</span></h1>
+  <p>Secuencia automática y multicanal de prospección y reactivación de contactos calificados — Integración de HubSpot, Apollo, Claude, Smartlead y Vambe.</p>
+  <div class="brand-bar">OOH Publicidad · Sistema de Revenue Intelligence</div>
+</header>
+
+<!-- ====== NAVIGATION ====== -->
+<nav class="nav-bar">
+  <a href="index.html" class="nav-btn" id="btn-flujo1">⬅️ Ver Flujo 1: Unificación de Datos</a>
+  <a href="diagrama-flujo2-reactivacion-ooh.html" class="nav-btn" id="btn-flujo2">⬅️ Ver Flujo 2: Reactivación y Scoring</a>
+</nav>
+
+<!-- ====== FLOW CONTAINER ====== -->
+<div class="flow-container">
+
+  <!-- PASO 1: HUBSPOT -->
+  <div class="step-card step--hub" id="paso-1">
+    <div class="step-number">Paso 1 · Punto de Partida</div>
+    <div class="step-title"><span class="icon">🟢</span> HubSpot — Cuentas Calificadas</div>
+    <ul class="step-bullets">
+      <li><strong>Scoring OOH Completado:</strong> Las cuentas son evaluadas en base a señales OOH (meses consecutivos, cantidad de soportes).</li>
+      <li><strong>Priorización de entrada:</strong> Se procesan en base a prioridad: las cuentas de <code>Prioridad A</code> entran de inmediato; seguidas por B y C.</li>
+    </ul>
+  </div>
+
+  <!-- FLECHA A PASO 2 -->
+  <div class="arrow arrow--apollo">
+    <svg width="24" height="44" viewBox="0 0 24 44">
+      <line x1="12" y1="2" x2="12" y2="34" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="2, 4"/>
+      <polygon points="7,32 12,43 17,32"/>
+    </svg>
+  </div>
+
+  <!-- PASO 2: APOLLO -->
+  <div class="step-card step--apollo" id="paso-2">
+    <div class="step-number">Paso 2 · Identificación</div>
+    <div class="step-title"><span class="icon">🔎</span> Apollo — Contactos de Decisión</div>
+    <ul class="step-bullets">
+      <li><strong>Filtro de cargos objetivo:</strong> Busca y confirma los contactos de <code>Gerente de Marketing</code>, <code>Director Comercial</code> y <code>Jefe de Publicidad</code>.</li>
+      <li><strong>Enriquecimiento directo:</strong> Extrae el nombre, correo corporativo oficial y número telefónico directo (con formato <code>+56 9 XXXX XXXX</code>).</li>
+    </ul>
+    <div class="badge-callout" style="background: rgba(74, 127, 217, 0.1); color: var(--apollo-title);">
+      <span>⚠️</span>
+      <span>Sin contacto válido → El prospecto entra en espera y se escala de inmediato al BD.</span>
+    </div>
+  </div>
+
+  <!-- FLECHA A PASO 3 -->
+  <div class="arrow arrow--api">
+    <svg width="24" height="44" viewBox="0 0 24 44">
+      <line x1="12" y1="2" x2="12" y2="34" stroke-width="2.5" stroke-linecap="round"/>
+      <polygon points="7,32 12,43 17,32"/>
+    </svg>
+  </div>
+
+  <!-- PASO 3: SCRAPER RAPIDAPI -->
+  <div class="step-card step--api" id="paso-3">
+    <div class="step-number">Paso 3 · Enriquecimiento</div>
+    <div class="step-title"><span class="icon">⚙️</span> Scraper RapidAPI — Contexto de Empresa</div>
+    <ul class="step-bullets">
+      <li><strong>Recolección en la web:</strong> Busca por dominio corporativo noticias del sector, lanzamientos de productos, expansiones o inversiones.</li>
+      <li><strong>Detección de campañas:</strong> Identifica campañas publicitarias activas OOH/digitales que sirvan como disparadores de conversación.</li>
+    </ul>
+  </div>
+
+  <!-- FLECHA A PASO 4 -->
+  <div class="arrow arrow--claude">
+    <svg width="24" height="44" viewBox="0 0 24 44">
+      <line x1="12" y1="2" x2="12" y2="34" stroke-width="2.5" stroke-linecap="round"/>
+      <polygon points="7,32 12,43 17,32"/>
+    </svg>
+  </div>
+
+  <!-- PASO 4: CLAUDE SKILL (DESTACADO) -->
+  <div class="step-card step--claude" id="paso-4">
+    <div class="step-number">Paso 4 · Motor Creativo</div>
+    <div class="step-title"><span class="icon">🧠</span> Skill de Claude — Personalización Inteligente</div>
+    <ul class="step-bullets">
+      <li><strong>Fusión de señales:</strong> Junta los datos del prospecto, la auditoría de soportes OOH, el historial de HubSpot y el contexto reciente del scraper.</li>
+      <li><strong>Generación multicanal:</strong> Escribe una versión de Email corta y consultiva, y un mensaje de WhatsApp directo de máximo 3 líneas.</li>
+    </ul>
+    
+    <!-- Verticales de industria -->
+    <div class="verticals-box">
+      <div class="verticals-box-title">💼 Enfoque comercial personalizado por Vertical:</div>
+      <div class="verticals-grid">
+        <div class="vertical-item">
+          <strong>Retail</strong>
+          Foco en tráfico al punto de venta físico y estacionalidad de campañas.
+        </div>
+        <div class="vertical-item">
+          <strong>Banca y Seguros</strong>
+          Foco en confianza de marca, seguridad y cobertura geográfica a nivel nacional.
+        </div>
+        <div class="vertical-item">
+          <strong>Telco y Tecnología</strong>
+          Foco en alcance masivo de alto impacto y posicionamiento en el top-of-mind.
+        </div>
+        <div class="vertical-item">
+          <strong>Automotriz</strong>
+          Foco en visibilidad de marca en arterias viales y zonas de alto tránsito de autos.
+        </div>
+        <div class="vertical-item">
+          <strong>Inmobiliaria</strong>
+          Foco en promoción de nuevos proyectos y visibilidad en zonas de expansión urbana.
+        </div>
+        <div class="vertical-item">
+          <strong>Salud y Farma</strong>
+          Foco en la cercanía de marcas con el paciente y cobertura de puntos locales.
+        </div>
+        <div class="vertical-item">
+          <strong>Educación</strong>
+          Foco en captación regional de alumnos en temporadas claves de postulación.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLECHA A PASO 5 -->
+  <div class="arrow arrow--smart">
+    <svg width="24" height="44" viewBox="0 0 24 44">
+      <line x1="12" y1="2" x2="12" y2="34" stroke-width="2.5" stroke-linecap="round"/>
+      <polygon points="7,32 12,43 17,32"/>
+    </svg>
+  </div>
+
+  <!-- PASO 5: SECUENCIA DE OUTREACH (TIMELINE HORIZONTAL) -->
+  <div class="outreach-timeline" id="paso-5">
+    <div class="timeline-header">
+      <h3><span class="icon">🚀</span> Paso 5 — Secuencia de Outreach Multicanal Automatizada</h3>
+      <p>Orquestación cronológica de toques combinados para maximizar la tasa de respuesta</p>
+    </div>
+
+    <!-- Timeline Grid -->
+    <div class="timeline-grid">
+      
+      <!-- Día 1 -->
+      <div class="timeline-node" id="t-dia-1">
+        <div class="node-indicator node--smart">
+          <span class="node-day">Día 1</span>
+          <span class="node-channel">✉️</span>
+        </div>
+        <div class="node-card">
+          <div class="node-title node-title--smart">Email (Smartlead)</div>
+          <p>Envío del mensaje principal personalizado según la vertical y contexto.</p>
+        </div>
+      </div>
+
+      <!-- Día 3 -->
+      <div class="timeline-node" id="t-dia-3">
+        <div class="node-indicator node--vambe">
+          <span class="node-day">Día 3</span>
+          <span class="node-channel">💬</span>
+        </div>
+        <div class="node-card">
+          <div class="node-title node-title--vambe">WhatsApp (Vambe)</div>
+          <p>Seguimiento ultra-corto (máx 3 líneas) haciendo referencia al correo previo.</p>
+        </div>
+      </div>
+
+      <!-- Día 7 -->
+      <div class="timeline-node" id="t-dia-7">
+        <div class="node-indicator node--smart">
+          <span class="node-day">Día 7</span>
+          <span class="node-channel">✉️</span>
+        </div>
+        <div class="node-card">
+          <div class="node-title node-title--smart">Email (Smartlead)</div>
+          <p>Segundo intento. Ángulo alternativo enfocado en ROI de soportes OOH.</p>
+        </div>
+      </div>
+
+      <!-- Día 12 -->
+      <div class="timeline-node" id="t-dia-12">
+        <div class="node-indicator node--vambe">
+          <span class="node-day">Día 12</span>
+          <span class="node-channel">💬</span>
+        </div>
+        <div class="node-card">
+          <div class="node-title node-title--vambe">WhatsApp (Vambe)</div>
+          <p>Cierre de secuencia. Pregunta directa de descarte comercial para agendar.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Aviso de pausa automática -->
+    <div class="timeline-notice">
+      <span>⚡</span>
+      <span><strong>Pausa Automática:</strong> Si el lead responde (Email o WhatsApp), la secuencia se detiene al instante en ambos canales.</span>
+    </div>
+  </div>
+
+  <!-- FLECHA A PASO 6 -->
+  <div class="arrow arrow--hub">
+    <svg width="24" height="44" viewBox="0 0 24 44">
+      <line x1="12" y1="2" x2="12" y2="34" stroke-width="2.5" stroke-linecap="round"/>
+      <polygon points="7,32 12,43 17,32"/>
+    </svg>
+  </div>
+
+  <!-- PASO 6: HUBSPOT RETORNO -->
+  <div class="step-card step--hub" id="paso-6">
+    <div class="step-number">Paso 6 · Cierre de Ciclo</div>
+    <div class="step-title"><span class="icon">🔄</span> HubSpot — Captura de Respuestas</div>
+    <ul class="step-bullets">
+      <li><strong>Sincronización de eventos:</strong> n8n recibe webhooks de respuestas de Smartlead/Vambe y actualiza la propiedad <code>estado_reactivacion</code>.</li>
+      <li><strong>Flujo post-outreach:</strong> Si no hay respuesta tras el Día 12, el lead se transfiere automáticamente a nurturing pasivo mensual.</li>
+    </ul>
+    <div class="badge-callout" style="background: rgba(46, 172, 90, 0.1); color: var(--hub-title);">
+      <span>🎉</span>
+      <span>Respuesta Positiva → n8n crea automáticamente un Deal (Trato) en HubSpot y notifica al BD asignado.</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====== LEGEND ====== -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch sw--hub"></div><span class="legend-label">🟢 HubSpot</span></div>
+  <div class="legend-item"><div class="legend-swatch sw--apollo"></div><span class="legend-label">🔎 Apollo</span></div>
+  <div class="legend-item"><div class="legend-swatch sw--api"></div><span class="legend-label">⚙️ Scraper API</span></div>
+  <div class="legend-item"><div class="legend-swatch sw--claude"></div><span class="legend-label">🧠 Skill de Claude</span></div>
+  <div class="legend-item"><div class="legend-swatch sw--smart"></div><span class="legend-label">✉️ Smartlead</span></div>
+  <div class="legend-item"><div class="legend-swatch sw--vambe"></div><span class="legend-label">💬 Vambe (WhatsApp)</span></div>
+</div>
+
+<footer class="footer">
+  Fase 3 · Secuencia de Outreach y Activación Outbound · OOH Publicidad · Junio 2026
+</footer>
+
+</body>
+</html>
