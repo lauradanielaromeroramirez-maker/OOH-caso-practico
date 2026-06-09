@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Flujo 2: Reactivación y prospección OOH — Dos carriles paralelos convergiendo en HubSpot">
+<title>Flujo 2 — Reactivación y Prospección OOH</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    /* Auditoría OOH — Morado */
+    --audit-bg: #f3f0fa;
+    --audit-border: #7c5cbf;
+    --audit-shadow: rgba(124, 92, 191, 0.14);
+    --audit-title: #3d2d6b;
+    --audit-text: #564580;
+    --audit-bullet: #7c5cbf;
+
+    /* Skill de Claude — Ámbar/Verde OOH */
+    --skill-bg: #eef8f5;
+    --skill-border: #269982;
+    --skill-shadow: rgba(38, 153, 130, 0.14);
+    --skill-title: #145c4c;
+    --skill-text: #1e6e5a;
+    --skill-bullet: #1BA68C;
+    --skill-badge-bg: linear-gradient(135deg, #009A82, #388295);
+
+    /* Apollo — Azul */
+    --apollo-bg: #eef3fc;
+    --apollo-border: #4a7fd9;
+    --apollo-shadow: rgba(74, 127, 217, 0.14);
+    --apollo-title: #1e3a6b;
+    --apollo-text: #2e4f80;
+    --apollo-bullet: #4a7fd9;
+
+    /* HubSpot — Verde */
+    --hub-bg: #eefaf0;
+    --hub-border: #2eac5a;
+    --hub-shadow: rgba(46, 172, 90, 0.14);
+    --hub-title: #14522a;
+    --hub-text: #1e6b38;
+    --hub-bullet: #2eac5a;
+
+    /* BD — Gris */
+    --bd-bg: #f2f3f5;
+    --bd-border: #6b7280;
+    --bd-shadow: rgba(107, 114, 128, 0.14);
+    --bd-title: #2d3240;
+    --bd-text: #4a5060;
+    --bd-bullet: #6b7280;
+
+    /* General */
+    --page-bg: #fafafa;
+    --text-primary: #2a2a3d;
+    --text-secondary: #5a5a72;
+    --text-muted: #8a8a9e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Be Vietnam Pro', 'Lato', sans-serif;
+    background: var(--page-bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 40px 20px 60px;
+    line-height: 1.6;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 16px;
+  }
+  .header .flujo-ref {
+    display: inline-block;
+    background: var(--audit-bg);
+    border: 1px solid var(--audit-border);
+    color: var(--audit-title);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 16px;
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .header h1 span {
+    background: linear-gradient(135deg, #7c5cbf 0%, #269982 40%, #2eac5a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header p {
+    color: var(--text-secondary);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.92rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .header .brand-bar {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 5px 18px;
+    background: linear-gradient(135deg, #009A82, #388295);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 16px;
+  }
+
+  /* ---- CONTEXT BADGE ---- */
+  .context-badge {
+    max-width: 860px;
+    margin: 0 auto 40px;
+    background: #fff;
+    border: 1px solid #e0e0e8;
+    border-left: 4px solid var(--hub-border);
+    border-radius: 10px;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+  .context-badge .cb-icon { font-size: 1.4rem; }
+  .context-badge .cb-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+  }
+  .context-badge .cb-text strong { color: var(--hub-title); }
+
+  /* ---- LANES CONTAINER ---- */
+  .lanes {
+    max-width: 860px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  /* ---- LANE ---- */
+  .lane {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .lane-label {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    border-radius: 18px;
+    margin-bottom: 18px;
+    white-space: nowrap;
+  }
+  .lane-label--left {
+    background: var(--audit-bg);
+    border: 1.5px solid var(--audit-border);
+    color: var(--audit-title);
+  }
+  .lane-label--right {
+    background: var(--hub-bg);
+    border: 1.5px solid var(--hub-border);
+    color: var(--hub-title);
+  }
+
+  /* ---- STEP CARD ---- */
+  .step {
+    width: 100%;
+    border-radius: 12px;
+    padding: 18px 22px;
+    border: 1.5px solid;
+    background: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .step:hover { transform: translateY(-2px); }
+  .step-number {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .step-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .step-title .icon { font-size: 1.1rem; flex-shrink: 0; }
+  .step-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .step-bullets li {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.8rem;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.45;
+  }
+  .step-bullets li::before {
+    content: '›';
+    position: absolute;
+    left: 3px;
+    font-weight: 900;
+    font-size: 0.95rem;
+    top: -1px;
+  }
+  .step-bullets code {
+    background: rgba(38, 153, 130, 0.1);
+    color: #145c4c;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  /* ---- ACTOR STYLES ---- */
+  .step--audit { background: var(--audit-bg); border-color: var(--audit-border); box-shadow: 0 3px 16px var(--audit-shadow); }
+  .step--audit .step-number { color: var(--audit-bullet); }
+  .step--audit .step-title { color: var(--audit-title); }
+  .step--audit .step-bullets li { color: var(--audit-text); }
+  .step--audit .step-bullets li::before { color: var(--audit-bullet); }
+
+  .step--skill { background: var(--skill-bg); border-color: var(--skill-border); box-shadow: 0 3px 16px var(--skill-shadow); }
+  .step--skill .step-number { color: var(--skill-bullet); }
+  .step--skill .step-title { color: var(--skill-title); }
+  .step--skill .step-bullets li { color: var(--skill-text); }
+  .step--skill .step-bullets li::before { color: var(--skill-bullet); }
+
+  .step--apollo { background: var(--apollo-bg); border-color: var(--apollo-border); box-shadow: 0 3px 16px var(--apollo-shadow); }
+  .step--apollo .step-number { color: var(--apollo-bullet); }
+  .step--apollo .step-title { color: var(--apollo-title); }
+  .step--apollo .step-bullets li { color: var(--apollo-text); }
+  .step--apollo .step-bullets li::before { color: var(--apollo-bullet); }
+
+  .step--hub { background: var(--hub-bg); border-color: var(--hub-border); box-shadow: 0 3px 16px var(--hub-shadow); }
+  .step--hub .step-number { color: var(--hub-bullet); }
+  .step--hub .step-title { color: var(--hub-title); }
+  .step--hub .step-bullets li { color: var(--hub-text); }
+  .step--hub .step-bullets li::before { color: var(--hub-bullet); }
+
+  .step--bd { background: var(--bd-bg); border-color: var(--bd-border); box-shadow: 0 3px 16px var(--bd-shadow); }
+  .step--bd .step-number { color: var(--bd-bullet); }
+  .step--bd .step-title { color: var(--bd-title); }
+  .step--bd .step-bullets li { color: var(--bd-text); }
+  .step--bd .step-bullets li::before { color: var(--bd-bullet); }
+
+  /* ---- ARROWS ---- */
+  .arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 34px;
+    flex-shrink: 0;
+  }
+  .arrow--audit line { stroke: var(--audit-border); } .arrow--audit polygon { fill: var(--audit-border); stroke: none; }
+  .arrow--skill line { stroke: var(--skill-border); } .arrow--skill polygon { fill: var(--skill-border); stroke: none; }
+  .arrow--apollo line { stroke: var(--apollo-border); } .arrow--apollo polygon { fill: var(--apollo-border); stroke: none; }
+  .arrow--hub line { stroke: var(--hub-border); } .arrow--hub polygon { fill: var(--hub-border); stroke: none; }
+  .arrow--bd line { stroke: var(--bd-border); } .arrow--bd polygon { fill: var(--bd-border); stroke: none; }
+
+  /* ---- MERGE SECTION ---- */
+  .merge-arrows {
+    max-width: 860px;
+    margin: 6px auto 6px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .convergence-container {
+    max-width: 860px;
+    margin: 0 auto;
+    border: 2.5px solid var(--hub-border);
+    border-radius: 22px;
+    background: linear-gradient(180deg, #f0faf3 0%, #fafffe 100%);
+    padding: 38px 32px 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    box-shadow: 0 6px 30px rgba(46, 172, 90, 0.1);
+  }
+  .convergence-label {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #2eac5a, #269982);
+    color: #fff;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 24px;
+    border-radius: 20px;
+    white-space: nowrap;
+    box-shadow: 0 3px 14px rgba(46, 172, 90, 0.35);
+  }
+  .convergence-label .label-icon { margin-right: 6px; }
+
+  .convergence-step {
+    width: 100%;
+    max-width: 620px;
+  }
+
+  /* ---- PRIORITY TABLE ---- */
+  .priority-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.78rem;
+  }
+  .priority-table th {
+    background: rgba(38, 153, 130, 0.12);
+    color: var(--skill-title);
+    font-weight: 700;
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 2px solid var(--skill-border);
+  }
+  .priority-table td {
+    padding: 5px 10px;
+    color: var(--skill-text);
+    border-bottom: 1px solid #e0ece8;
+  }
+  .priority-table .tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 0.72rem;
+  }
+  .tag--a { background: #dcf5e8; color: #14522a; }
+  .tag--b { background: #fef3cd; color: #6b4a1a; }
+  .tag--c { background: #e8e5f5; color: #3d2d6b; }
+  .tag--x { background: #f2f3f5; color: #6b7280; }
+
+  /* ---- WRITE INDICATOR ---- */
+  .write-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    max-width: 620px;
+    width: 100%;
+  }
+  .write-indicator--api {
+    background: linear-gradient(90deg, var(--skill-bg), var(--hub-bg));
+    border: 1.5px dashed #6bc4a8;
+    color: #1e6e5a;
+  }
+  .write-indicator--api .wi-arrow {
+    font-size: 1rem;
+  }
+
+  /* ---- PROPERTIES CALLOUT ---- */
+  .props-callout {
+    max-width: 620px;
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid var(--hub-border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 0;
+  }
+  .props-callout-title {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--hub-title);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .props-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 16px;
+  }
+  .prop-item {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.76rem;
+    color: var(--hub-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .prop-item code {
+    background: rgba(46, 172, 90, 0.1);
+    color: var(--hub-title);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+  .prop-item .prop-type {
+    color: var(--text-muted);
+    font-size: 0.68rem;
+  }
+
+  /* ---- ROLE BADGES ---- */
+  .role-badges {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+  .role-badge {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .role-badge--calc {
+    background: var(--skill-bg);
+    border: 1px solid var(--skill-border);
+    color: var(--skill-title);
+  }
+  .role-badge--store {
+    background: var(--hub-bg);
+    border: 1px solid var(--hub-border);
+    color: var(--hub-title);
+  }
+  .role-badge--act {
+    background: var(--hub-bg);
+    border: 1px solid var(--hub-border);
+    color: var(--hub-title);
+  }
+
+  /* ---- LEGEND ---- */
+  .legend {
+    max-width: 860px;
+    margin: 48px auto 0;
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    background: #fff;
+    border: 1px solid #e0e0e8;
+    border-radius: 12px;
+    padding: 14px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-swatch {
+    width: 16px; height: 16px;
+    border-radius: 4px;
+    border: 2px solid;
+    flex-shrink: 0;
+  }
+  .sw--audit  { background: var(--audit-bg);  border-color: var(--audit-border); }
+  .sw--skill  { background: var(--skill-bg);  border-color: var(--skill-border); }
+  .sw--apollo { background: var(--apollo-bg); border-color: var(--apollo-border); }
+  .sw--hub    { background: var(--hub-bg);    border-color: var(--hub-border); }
+  .sw--bd     { background: var(--bd-bg);     border-color: var(--bd-border); }
+  .legend-label {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 32px;
+    color: var(--text-muted);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .lane > *, .convergence-container > * { animation: fadeUp 0.4s ease both; }
+  .lane > *:nth-child(1) { animation-delay: 0.05s; }
+  .lane > *:nth-child(2) { animation-delay: 0.1s; }
+  .lane > *:nth-child(3) { animation-delay: 0.15s; }
+  .lane > *:nth-child(4) { animation-delay: 0.2s; }
+  .lane > *:nth-child(5) { animation-delay: 0.25s; }
+  .lane > *:nth-child(6) { animation-delay: 0.3s; }
+  .lane > *:nth-child(7) { animation-delay: 0.35s; }
+  .lane > *:nth-child(8) { animation-delay: 0.4s; }
+  .lane > *:nth-child(9) { animation-delay: 0.45s; }
+
+  .convergence-container > *:nth-child(2)  { animation-delay: 0.5s; }
+  .convergence-container > *:nth-child(3)  { animation-delay: 0.57s; }
+  .convergence-container > *:nth-child(4)  { animation-delay: 0.64s; }
+  .convergence-container > *:nth-child(5)  { animation-delay: 0.71s; }
+  .convergence-container > *:nth-child(6)  { animation-delay: 0.78s; }
+  .convergence-container > *:nth-child(7)  { animation-delay: 0.85s; }
+  .convergence-container > *:nth-child(8)  { animation-delay: 0.92s; }
+  .convergence-container > *:nth-child(9)  { animation-delay: 0.99s; }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 700px) {
+    body { padding: 24px 10px 40px; }
+    .header h1 { font-size: 1.3rem; }
+    .lanes { grid-template-columns: 1fr; gap: 36px; }
+    .step { padding: 16px 16px; }
+    .convergence-container { padding: 32px 14px 24px; }
+    .legend { gap: 12px; padding: 12px 14px; }
+    .merge-arrows { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====== HEADER ====== -->
+<header class="header">
+  <div class="flujo-ref">Flujo 2 de 2</div>
+  <h1><span>Reactivación y Prospección OOH</span></h1>
+  <p>Sistema de dos carriles paralelos: prospección nueva desde auditoría OOH y reactivación de base histórica — ambos convergen en HubSpot para calificar y asignar cuentas al equipo comercial.</p>
+  <div class="brand-bar">OOH Publicidad · Sistema de Revenue Intelligence</div>
+</header>
+
+<!-- ====== CONTEXT ====== -->
+<div class="context-badge">
+  <span class="cb-icon">✅</span>
+  <div class="cb-text"><strong>Prerequisito completado:</strong> El Flujo 1 (limpieza y unificación de SQL + Excel + HubSpot Export) ya fue ejecutado. HubSpot contiene los contactos históricos limpios e importados.</div>
+</div>
+
+<!-- ====== TWO LANES ====== -->
+<div class="lanes">
+
+  <!-- ═══════ CARRIL IZQUIERDO ═══════ -->
+  <div class="lane">
+    <div class="lane-label lane-label--left">Carril 1 — Auditoría OOH → Prospección nueva</div>
+
+    <!-- A1 -->
+    <div class="step step--audit" id="paso-a1">
+      <div class="step-number">Paso A1 · Entrada</div>
+      <div class="step-title"><span class="icon">📋</span> Auditoría OOH mensual</div>
+      <ul class="step-bullets">
+        <li>Excel mensual con ID de soporte, marca, foto, datos de audiencia</li>
+        <li>Incluye volumen de personas, NSE y sexo por soporte</li>
+      </ul>
+    </div>
+
+    <div class="arrow arrow--skill"><svg width="24" height="34" viewBox="0 0 24 34"><line x1="12" y1="2" x2="12" y2="24" stroke-width="2.5" stroke-linecap="round"/><polygon points="7,22 12,33 17,22"/></svg></div>
+
+    <!-- A2 -->
+    <div class="step step--skill" id="paso-a2">
+      <div class="step-number">Paso A2 · Skill de Claude — Extraer marcas</div>
+      <div class="step-title"><span class="icon">🔍</span> Análisis de marcas activas</div>
+      <ul class="step-bullets">
+        <li>Extrae lista única de marcas y detecta las de presupuesto alto (múltiples soportes)</li>
+        <li>Identifica marcas con presencia en meses consecutivos (cliente estable OOH)</li>
+      </ul>
+    </div>
+
+    <div class="arrow arrow--apollo"><svg width="24" height="34" viewBox="0 0 24 34"><line x1="12" y1="2" x2="12" y2="24" stroke-width="2.5" stroke-linecap="round"/><polygon points="7,22 12,33 17,22"/></svg></div>
+
+    <!-- A3 -->
+    <div class="step step--apollo" id="paso-a3">
+      <div class="step-number">Paso A3 · Apollo — Buscar contactos</div>
+      <div class="step-title"><span class="icon">🔎</span> Enriquecimiento de marcas detectadas</div>
+      <ul class="step-bullets">
+        <li>Busca contactos por nombre de empresa y dominio web</li>
+        <li>Devuelve: cargo, email, LinkedIn, teléfono (+56 9), industria, tamaño</li>
+      </ul>
+    </div>
+
+    <div class="arrow arrow--skill"><svg width="24" height="34" viewBox="0 0 24 34"><line x1="12" y1="2" x2="12" y2="24" stroke-width="2.5" stroke-linecap="round"/><polygon points="7,22 12,33 17,22"/></svg></div>
+
+    <!-- A4 -->
+    <div class="step step--skill" id="paso-a4">
+      <div class="step-number">Paso A4 · Skill de Claude — Filtrar por ICP</div>
+      <div class="step-title"><span class="icon">🎯</span> Filtro por perfil de cliente ideal</div>
+      <ul class="step-bullets">
+        <li>Descarta empresas pequeñas y personas naturales</li>
+        <li>Solo pasan empresas medianas y grandes al siguiente paso</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════ CARRIL DERECHO ═══════ -->
+  <div class="lane">
+    <div class="lane-label lane-label--right">Carril 2 — Base histórica (desde Flujo 1)</div>
+
+    <!-- B1 -->
+    <div class="step step--hub" id="paso-b1">
+      <div class="step-number">Paso B1 · Punto de partida</div>
+      <div class="step-title"><span class="icon">🟢</span> HubSpot con contactos limpios</div>
+      <ul class="step-bullets">
+        <li>Contactos históricos ya importados desde el Flujo 1</li>
+        <li>Incluye clientes pasados y cotizantes web sin cerrar</li>
+      </ul>
+    </div>
+
+    <div class="arrow arrow--apollo"><svg width="24" height="34" viewBox="0 0 24 34"><line x1="12" y1="2" x2="12" y2="24" stroke-width="2.5" stroke-linecap="round"/><polygon points="7,22 12,33 17,22"/></svg></div>
+
+    <!-- B2 -->
+    <div class="step step--apollo" id="paso-b2">
+      <div class="step-number">Paso B2 · Apollo — Enriquecer</div>
+      <div class="step-title"><span class="icon">⚡</span> Actualización de datos en HubSpot</div>
+      <ul class="step-bullets">
+        <li>Enriquece por dominio: cargo actualizado, LinkedIn, teléfono, industria</li>
+        <li>Actualiza campos directamente en los registros de HubSpot</li>
+      </ul>
+    </div>
+
+    <div class="arrow arrow--skill"><svg width="24" height="34" viewBox="0 0 24 34"><line x1="12" y1="2" x2="12" y2="24" stroke-width="2.5" stroke-linecap="round"/><polygon points="7,22 12,33 17,22"/></svg></div>
+
+    <!-- B3 -->
+    <div class="step step--skill" id="paso-b3">
+      <div class="step-number">Paso B3 · Skill de Claude — Segmentar</div>
+      <div class="step-title"><span class="icon">📊</span> Clasificación dormido vs activo</div>
+      <ul class="step-bullets">
+        <li>Dormido: <code>fecha_ultima_actividad</code> &gt; 180 días — Activo: últimos 6 meses</li>
+        <li>Descarta contactos que no cumplen ICP (empresas pequeñas)</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====== MERGE ARROWS (SVG) ====== -->
+<div class="merge-arrows">
+  <svg width="860" height="56" viewBox="0 0 860 56">
+    <!-- Left lane arrow -->
+    <line x1="215" y1="4" x2="215" y2="20" stroke="#7c5cbf" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="215" y1="20" x2="430" y2="44" stroke="#2eac5a" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Right lane arrow -->
+    <line x1="645" y1="4" x2="645" y2="20" stroke="#2eac5a" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="645" y1="20" x2="430" y2="44" stroke="#2eac5a" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Center arrowhead -->
+    <polygon points="424,44 430,55 436,44" fill="#2eac5a"/>
+  </svg>
+</div>
+
+<!-- ====== CONVERGENCE ====== -->
+<div class="convergence-container">
+  <div class="convergence-label"><span class="label-icon">🔀</span> Convergencia en HubSpot</div>
+
+  <!-- C1 -->
+  <div class="step step--hub convergence-step" id="paso-c1">
+    <div class="step-number">Paso C1 · HubSpot — ¿Ya existe el contacto?</div>
+    <div class="step-title"><span class="icon">🔄</span> Cruce con base existente</div>
+    <ul class="step-bullets">
+      <li>Si el contacto del Carril A ya existe → actualiza registro y suma señal OOH</li>
+      <li>Si no existe → crea contacto nuevo con tag <code>prospecto_nuevo</code></li>
+    </ul>
+  </div>
+
+  <div class="arrow arrow--skill"><svg width="24" height="34" viewBox="0 0 24 34"><line x1="12" y1="2" x2="12" y2="24" stroke-width="2.5" stroke-linecap="round"/><polygon points="7,22 12,33 17,22"/></svg></div>
+
+  <!-- C2 · CLAUDE CALCULA -->
+  <div class="step step--skill convergence-step" id="paso-c2">
+    <div class="step-number">Paso C2 · Skill de Claude — Calcular prioridad</div>
+    <div class="step-title"><span class="icon">🧠</span> Scoring de señales cruzadas</div>
+    <div class="role-badges"><span class="role-badge role-badge--calc">⚡ Claude calcula</span></div>
+    <table class="priority-table">
+      <thead>
+        <tr><th>Prioridad</th><th>Criterio</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="tag tag--a">A</span></td><td>Cliente dormido + pautando en OOH este mes (señal doble)</td></tr>
+        <tr><td><span class="tag tag--a">A</span></td><td>3+ soportes activos o 3+ meses consecutivos en auditoría</td></tr>
+        <tr><td><span class="tag tag--b">B</span></td><td>Dormido sin señal OOH activa</td></tr>
+        <tr><td><span class="tag tag--c">C</span></td><td>Prospecto nuevo con pauta OOH detectada</td></tr>
+        <tr><td><span class="tag tag--x">—</span></td><td>Prospecto nuevo sin señal OOH → fuera de foco</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- WRITE INDICATOR -->
+  <div class="arrow arrow--skill"><svg width="24" height="34" viewBox="0 0 24 34"><line x1="12" y1="2" x2="12" y2="24" stroke-width="2.5" stroke-linecap="round"/><polygon points="7,22 12,33 17,22"/></svg></div>
+
+  <!-- C2b · CLAUDE ESCRIBE A HUBSPOT -->
+  <div class="write-indicator write-indicator--api">
+    <span>⚡ Claude</span>
+    <span class="wi-arrow">→ escribe vía API/CSV →</span>
+    <span>🟢 HubSpot</span>
+  </div>
+
+  <div class="arrow arrow--hub"><svg width="24" height="14" viewBox="0 0 24 14"><polygon points="7,2 12,13 17,2" fill="#2eac5a"/></svg></div>
+
+  <!-- PROPERTIES CALLOUT -->
+  <div class="props-callout">
+    <div class="props-callout-title">🗂️ Propiedades personalizadas escritas en HubSpot</div>
+    <div class="props-grid">
+      <div class="prop-item"><code>segmento_prioridad</code> <span class="prop-type">Dropdown (A/B/C)</span></div>
+      <div class="prop-item"><code>señal_ooh_activa</code> <span class="prop-type">Sí / No</span></div>
+      <div class="prop-item"><code>cantidad_soportes_ooh</code> <span class="prop-type">Número</span></div>
+      <div class="prop-item"><code>meses_consecutivos_ooh</code> <span class="prop-type">Número</span></div>
+      <div class="prop-item"><code>fuente_origen</code> <span class="prop-type">Dropdown</span></div>
+      <div class="prop-item"><code>estado_reactivacion</code> <span class="prop-type">Dropdown</span></div>
+    </div>
+  </div>
+
+  <div class="arrow arrow--hub"><svg width="24" height="34" viewBox="0 0 24 34"><line x1="12" y1="2" x2="12" y2="24" stroke-width="2.5" stroke-linecap="round"/><polygon points="7,22 12,33 17,22"/></svg></div>
+
+  <!-- C3 · HUBSPOT REACCIONA -->
+  <div class="step step--hub convergence-step" id="paso-c3">
+    <div class="step-number">Paso C3 · HubSpot — Workflow automático nativo</div>
+    <div class="step-title"><span class="icon">⚙️</span> HubSpot reacciona al score</div>
+    <div class="role-badges"><span class="role-badge role-badge--act">🟢 HubSpot ejecuta — no calcula</span></div>
+    <ul class="step-bullets">
+      <li>Workflow se dispara cuando <code>segmento_prioridad</code> = A</li>
+      <li>Notificación interna + email automático al BD con resumen de la cuenta</li>
+      <li>Incluye: empresa, RUT, señal OOH, NSE audiencia, cantidad de soportes</li>
+    </ul>
+  </div>
+
+  <div class="arrow arrow--bd"><svg width="24" height="34" viewBox="0 0 24 34"><line x1="12" y1="2" x2="12" y2="24" stroke-width="2.5" stroke-linecap="round"/><polygon points="7,22 12,33 17,22"/></svg></div>
+
+  <!-- C4 -->
+  <div class="step step--bd convergence-step" id="paso-c4">
+    <div class="step-number">Paso C4 · Ejecutivo Comercial</div>
+    <div class="step-title"><span class="icon">👤</span> BD recibe cuenta calificada</div>
+    <ul class="step-bullets">
+      <li>Vista personalizada en HubSpot: empresa, prioridad, señal OOH, última actividad</li>
+      <li>Cuenta lista para contacto directo con toda la inteligencia consolidada</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====== LEGEND ====== -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch sw--audit"></div><span class="legend-label">📋 Auditoría OOH</span></div>
+  <div class="legend-item"><div class="legend-swatch sw--skill"></div><span class="legend-label">⚡ Skill de Claude</span></div>
+  <div class="legend-item"><div class="legend-swatch sw--apollo"></div><span class="legend-label">🔎 Apollo</span></div>
+  <div class="legend-item"><div class="legend-swatch sw--hub"></div><span class="legend-label">🟢 HubSpot</span></div>
+  <div class="legend-item"><div class="legend-swatch sw--bd"></div><span class="legend-label">👤 Ejecutivo (BD)</span></div>
+</div>
+
+<footer class="footer">
+  Flujo 2 · Sistema de Reactivación y Prospección OOH · OOH Publicidad · Junio 2026
+</footer>
+
+</body>
+</html>
